@@ -28,7 +28,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
     ArrayList<DetalleVenta> listaProductos = new ArrayList<>();
     private DetalleVenta producto;
 
-    private int idCliente = 0;//id del cliente sleccionado
+    private int idCliente = 0;//id del cliente seleccionado
 
     private int idProducto = 0;
     private String nombre = "";
@@ -39,6 +39,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
     private int cantidad = 0;//cantidad de productos a comprar
     private double subtotal = 0.0;//cantidad por precio
     private double descuento = 0.0;
+    
     private double igv = 0.0;
     private double totalPagar = 0.0;
 
@@ -54,7 +55,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
     public JFacturacion() {
         initComponents();
         this.setSize(new Dimension(800, 600));
-        this.setTitle("Facturacion");
+        this.setTitle("NUEVA VENTA ");
 
         //Cargar lo Clientes en la vista - cargar productos
         this.CargarComboClientes();
@@ -288,6 +289,11 @@ public class JFacturacion extends javax.swing.JInternalFrame {
 
         txt_iva.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         txt_iva.setEnabled(false);
+        txt_iva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_ivaActionPerformed(evt);
+            }
+        });
         jPanel2.add(txt_iva, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 120, -1));
 
         txt_total_pagar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -374,7 +380,9 @@ public class JFacturacion extends javax.swing.JInternalFrame {
                         if (cantidad <= cantidadProductoBBDD) {
 
                             subtotal = precioUnitario * cantidad;
-                            totalPagar = subtotal + igv + descuento;
+
+                            totalPagar = subtotal + igv - descuento;
+                            
 
                             //redondear decimales
                             subtotal = (double) Math.round(subtotal * 100) / 100;
@@ -418,8 +426,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Ingresa la cantidad de productos");
             }
-        }
-        //llamar al metodo
+        }        
         this.listaTablaProductos();
     }//GEN-LAST:event_jButton_añadir_productoActionPerformed
 
@@ -558,6 +565,10 @@ public class JFacturacion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_descuentoActionPerformed
 
+    private void txt_ivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ivaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_ivaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_RegistrarVenta;
@@ -639,7 +650,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
      */
     private boolean validar(String valor) {
         try {
-            int num = Integer.parseInt(valor);
+            int num1 = Integer.parseInt(valor);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -651,7 +662,7 @@ public class JFacturacion extends javax.swing.JInternalFrame {
      */
     private boolean validarDouble(String valor) {
         try {
-            double num = Double.parseDouble(valor);
+            double num2 = Double.parseDouble(valor);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -673,8 +684,8 @@ public class JFacturacion extends javax.swing.JInternalFrame {
                 nombre = rs.getString("nombre");
                 cantidadProductoBBDD = rs.getInt("cantidad");
                 precioUnitario = rs.getDouble("precio");
-                porcentajeIgv = rs.getInt("porcentajeIva");
-                this.CalcularIva(precioUnitario, porcentajeIgv);//calcula y retorna el iva
+                porcentajeIgv = rs.getInt("porcentajeIgv");
+                this.CalcularIgv(precioUnitario, porcentajeIgv);//calcula y retorna el iva
             }
 
         } catch (SQLException e) {
@@ -685,18 +696,18 @@ public class JFacturacion extends javax.swing.JInternalFrame {
     /*
         Metodo para calcular iva
      */
-    private double CalcularIva(double precio, int porcentajeIva) {
+    private double CalcularIgv(double precio, int porcentajeIva) {
         int p_iva = porcentajeIva;
 
         switch (p_iva) {
             case 0:
                 igv = 0.0;
                 break;
-            case 12:
-                igv = (precio * cantidad) * 0.12;
+            case 18:
+                igv = (precio * cantidad) * 0.18;
                 break;
-            case 14:
-                igv = (precio * cantidad) * 0.14;
+            case 16:
+                igv = (precio * cantidad) * 0.16;
                 break;
             default:
                 break;
@@ -711,7 +722,6 @@ public class JFacturacion extends javax.swing.JInternalFrame {
     private void CalcularTotalPagar() {
         subtotalGeneral = 0;
         descuentoGeneral = 0;
-        igvGeneral = 0;
         totalPagarGeneral = 0;
 
         for (DetalleVenta elemento : listaProductos) {
@@ -731,6 +741,8 @@ public class JFacturacion extends javax.swing.JInternalFrame {
         txt_iva.setText(String.valueOf(igvGeneral));
         txt_descuento.setText(String.valueOf(descuentoGeneral));
         txt_total_pagar.setText(String.valueOf(totalPagarGeneral));
+        
+        igvGeneral = 0;
     }
 
     /*
@@ -754,32 +766,38 @@ public class JFacturacion extends javax.swing.JInternalFrame {
 
     //metodo para restar la cantidad (stock) de los productos vendidos
     private void RestarStockProductos(int idProducto, int cantidad) {
-        int cantidadProductosBaseDeDatos = 0;
-        try {
-            Connection cn = Conexion.conectar();
-            String sql = "select idProducto, cantidad from tb_producto where idProducto = '" + idProducto + "'";
-            Statement st;
-            st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                cantidadProductosBaseDeDatos = rs.getInt("cantidad");
+    try (Connection cn = Conexion.conectar()) {
+        cn.setAutoCommit(false); // Inicia la transacción
+
+        // Obtener la cantidad actual del producto
+        String sqlSelect = "select cantidad from tb_producto where idProducto = ?";
+        try (PreparedStatement psSelect = cn.prepareStatement(sqlSelect)) {
+            psSelect.setInt(1, idProducto);
+            ResultSet rs = psSelect.executeQuery();
+            if (rs.next()) {
+                int cantidadProductosBaseDeDatos = rs.getInt("cantidad");
+                int cantidadNueva = cantidadProductosBaseDeDatos - cantidad;
+
+                if (cantidadNueva < 0) {
+                    System.out.println("Stock insuficiente.");
+                    cn.rollback();
+                    return;
+                }
+
+                // Actualizar la cantidad del producto
+                String sqlUpdate = "update tb_producto set cantidad = ? where idProducto = ?";
+                try (PreparedStatement psUpdate = cn.prepareStatement(sqlUpdate)) {
+                    psUpdate.setInt(1, cantidadNueva);
+                    psUpdate.setInt(2, idProducto);
+                    psUpdate.executeUpdate();
+                }
             }
-            cn.close();
-        } catch (SQLException e) {
-            System.out.println("Error al restar cantidad 1, " + e);
         }
 
-        try {
-            Connection cn = Conexion.conectar();
-            PreparedStatement consulta = cn.prepareStatement("update tb_producto set cantidad=? where idProducto = '" + idProducto + "'");
-            int cantidadNueva = cantidadProductosBaseDeDatos - cantidad;
-            consulta.setInt(1, cantidadNueva);
-            if(consulta.executeUpdate() > 0){
-                //System.out.println("Todo bien");
-            }
-            cn.close();
-        } catch (SQLException e) {
-            System.out.println("Error al restar cantidad 2, " + e);
-        }
+        cn.commit(); // Confirma la transacción
+    } catch (SQLException e) {
+        System.out.println("Error al restar cantidad: " + e.getMessage());
     }
+}
+
 }

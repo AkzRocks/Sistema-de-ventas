@@ -201,7 +201,7 @@
             <StringItem index="0" value="Seleccione igv:"/>
             <StringItem index="1" value="No grava igv"/>
             <StringItem index="2" value="18%"/>
-            <StringItem index="3" value="14%"/>
+            <StringItem index="3" value="16%"/>
           </StringArray>
         </Property>
       </Properties>

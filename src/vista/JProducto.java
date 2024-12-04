@@ -111,7 +111,7 @@ public class JProducto extends javax.swing.JInternalFrame {
         getContentPane().add(txt_descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
 
         jComboBox_iva.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_iva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione igv:", "No grava igv", "18%", "14%" }));
+        jComboBox_iva.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione igv:", "No grava igv", "18%", "16%" }));
         jComboBox_iva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox_ivaActionPerformed(evt);
@@ -143,9 +143,9 @@ public class JProducto extends javax.swing.JInternalFrame {
 
         Producto producto = new Producto();
         ProductoDAO controlProducto = new ProductoDAO();
-        String iva = "";
+        String igv= "";
         String categoria = "";
-        iva = jComboBox_iva.getSelectedItem().toString().trim();
+        igv = jComboBox_iva.getSelectedItem().toString().trim();
         categoria = jComboBox_categoria.getSelectedItem().toString().trim();
 
         //validar campos
@@ -157,7 +157,7 @@ public class JProducto extends javax.swing.JInternalFrame {
         } else {
             //consulta para ver si el producto ya existe
             if (!controlProducto.existeProducto(txt_nombre.getText().trim())) {
-                if (iva.equalsIgnoreCase("Seleccione igv:")) {
+                if (igv.equalsIgnoreCase("Seleccione igv:")) {
                     JOptionPane.showMessageDialog(null, "Seleccione igv.");
                 } else {
                     if (categoria.equalsIgnoreCase("Seleccione categoria:")) {
@@ -191,11 +191,11 @@ public class JProducto extends javax.swing.JInternalFrame {
 
                             producto.setDescripcion(txt_descripcion.getText().trim());
                             //Porcentaje IGV
-                            if (iva.equalsIgnoreCase("No grava igv")) {
+                            if (igv.equalsIgnoreCase("No grava igv")) {
                                 producto.setPorcentajeIgv(0);
-                            } else if (iva.equalsIgnoreCase("18%")) {
+                            } else if (igv.equalsIgnoreCase("18%")) {
                                 producto.setPorcentajeIgv(18);
-                            } else if (iva.equalsIgnoreCase("16%")) {
+                            } else if (igv.equalsIgnoreCase("16%")) {
                                 producto.setPorcentajeIgv(16);
                             }
 

@@ -21,20 +21,19 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author will
  */
 public class Reportes {
 
-    /* ********************************************************************
+    /* 
     * metodo para crear reportes de los clientes registrados en el sistema
-    *********************************************************************** */
+    */
     public void ReportesClientes() {
         Document documento = new Document();
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Clientes.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/Proyecto nuevo_1.jpg");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
@@ -88,15 +87,15 @@ public class Reportes {
         }
     }
     
-    /* ********************************************************************
-    * metodo para crear reportes de los productos registrados en el sistema
-    *********************************************************************** */
+    /* 
+    * metodo para crear reportes de los productos registrados en el sistema 
+    */  
     public void ReportesProductos() {
         Document documento = new Document();
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Productos.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/Proyecto nuevo_1.jpg");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
@@ -119,14 +118,14 @@ public class Reportes {
             tabla.addCell("Cant.");
             tabla.addCell("Precio");
             tabla.addCell("Descripcion");
-            tabla.addCell("Por. Iva");
+            tabla.addCell("Por. Igv");
             tabla.addCell("Categoria");
 
             try {
                 Connection cn = Conexion.conectar();
                 PreparedStatement pst = cn.prepareStatement(
                         "select p.idProducto, p.nombre, p.cantidad, p.precio, p.descripcion, "
-                                + "p.porcentajeIva, c.descripcion as categoria, p.estado "
+                                + "p.porcentajeIgv, c.descripcion as categoria, p.estado "
                                 + "from tb_producto as p, tb_categoria as c "
                                 + "where p.idCategoria = c.idCategoria;");
                 ResultSet rs = pst.executeQuery();
@@ -159,15 +158,15 @@ public class Reportes {
         }
     }
     
-        /* ********************************************************************
+        /* 
     * metodo para crear reportes de los categorias registrados en el sistema
-    *********************************************************************** */
+     */
     public void ReportesCategorias() {
         Document documento = new Document();
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Categorias.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/Proyecto nuevo_1.jpg");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
@@ -225,7 +224,7 @@ public class Reportes {
         try {
             String ruta = System.getProperty("user.home");
             PdfWriter.getInstance(documento, new FileOutputStream(ruta + "/Desktop/Reporte_Ventas.pdf"));
-            Image header = Image.getInstance("src/img/header1.jpg");
+            Image header = Image.getInstance("src/img/Proyecto nuevo_1.jpg");
             header.scaleToFit(650, 1000);
             header.setAlignment(Chunk.ALIGN_CENTER);
             //formato al texto
