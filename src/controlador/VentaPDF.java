@@ -104,8 +104,8 @@ public class VentaPDF {
             String ruc = "0987654321001";
             String nombre = "Licoreria SAN TORO S.A.C.";
             String telefono = "987179270";
-            String direccion = "mi compa;ero sabe donde queda, no me dio la informacion";
-            String razon = "aun no tenemos razon de ser";
+            String direccion = "Av. cerro Chico 184, Santiago de Surco 15803";
+            String razon = " no sabes la razon, perdone profe :((((";
 
             Encabezado.addCell("");//celda vacia
             Encabezado.addCell("RUC: " + ruc + "\nNOMBRE: " + nombre + "\nTELEFONO: " + telefono + "\nDIRECCION: " + direccion + "\nRAZON SOCIAL: " + razon);

@@ -36,7 +36,7 @@ public class JCliente extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         txt_nombre = new javax.swing.JTextField();
         txt_apellido = new javax.swing.JTextField();
-        txt_cedula = new javax.swing.JTextField();
+        txt_DNI = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         jButton_Guardar = new javax.swing.JButton();
         txt_direccion = new javax.swing.JTextField();
@@ -66,7 +66,7 @@ public class JCliente extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("Cédula:");
+        jLabel4.setText("DNI");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 90, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -87,8 +87,8 @@ public class JCliente extends javax.swing.JInternalFrame {
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
-        txt_cedula.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        getContentPane().add(txt_cedula, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
+        txt_DNI.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        getContentPane().add(txt_DNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
@@ -117,14 +117,14 @@ public class JCliente extends javax.swing.JInternalFrame {
         Cliente cliente = new Cliente();
         ClienteDAO controlCliente = new ClienteDAO();
 
-        if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_cedula.getText().isEmpty()) {
+        if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_DNI.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "Correcto");
 
-            if (!controlCliente.existeCliente(txt_cedula.getText().trim())) {
+            if (!controlCliente.existeCliente(txt_DNI.getText().trim())) {
 
                 cliente.setNombre(txt_nombre.getText().trim());
                 cliente.setApellido(txt_apellido.getText().trim());
-                cliente.setCedula(txt_cedula.getText().trim());
+                cliente.setCedula(txt_DNI.getText().trim());
                 cliente.setTelefono(txt_telefono.getText().trim());
                 cliente.setDireccion(txt_direccion.getText().trim());
                 cliente.setEstado(1);
@@ -133,7 +133,7 @@ public class JCliente extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Registro Guardado");
                     txt_nombre.setBackground(Color.green);
                     txt_apellido.setBackground(Color.green);
-                    txt_cedula.setBackground(Color.green);
+                    txt_DNI.setBackground(Color.green);
                     txt_telefono.setBackground(Color.green);
                     txt_direccion.setBackground(Color.green);
                 } else {
@@ -144,7 +144,7 @@ public class JCliente extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "El cliente ya esta registrado en la Base de Datos.");
                 txt_nombre.setBackground(Color.white);
                 txt_apellido.setBackground(Color.white);
-                txt_cedula.setBackground(Color.white);
+                txt_DNI.setBackground(Color.white);
                 txt_telefono.setBackground(Color.white);
                 txt_direccion.setBackground(Color.white);
             }
@@ -152,7 +152,7 @@ public class JCliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Completa todos los campos");
             txt_nombre.setBackground(Color.red);
             txt_apellido.setBackground(Color.red);
-            txt_cedula.setBackground(Color.red);
+            txt_DNI.setBackground(Color.red);
             txt_telefono.setBackground(Color.red);
             txt_direccion.setBackground(Color.red);
         }
@@ -171,8 +171,8 @@ public class JCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel_wallpaper;
+    private javax.swing.JTextField txt_DNI;
     private javax.swing.JTextField txt_apellido;
-    private javax.swing.JTextField txt_cedula;
     private javax.swing.JTextField txt_direccion;
     private javax.swing.JTextField txt_nombre;
     private javax.swing.JTextField txt_telefono;
@@ -184,7 +184,7 @@ public class JCliente extends javax.swing.JInternalFrame {
     private void Limpiar() {
         txt_nombre.setText("");
         txt_apellido.setText("");
-        txt_cedula.setText("");
+        txt_DNI.setText("");
         txt_telefono.setText("");
         txt_direccion.setText("");
     }
